@@ -30,7 +30,8 @@ public class JobChainDriver {
 			System.exit(2);
 		}
 		
-		int tmpFolderCount = 4;
+		//Easy creation of new temp paths if job scales
+		int tmpFolderCount = 5;
 		String[] tmpFolders = new String[tmpFolderCount+1];
 		for (int i = 1; i <= tmpFolderCount; i++) {
 			tmpFolders[i] = "./tmp/" + i;
@@ -38,6 +39,7 @@ public class JobChainDriver {
 		String countryAllLocalities = tmpFolders[1] + "/part-r-00000";
 		String localsAllNeighbs = tmpFolders[2] + "/part-r-00000";
 		String topLocalities = tmpFolders[3] + "/part-r-00000";
+		String topNeighbs = tmpFolders[4] + "/part-r-00000";
 
 ////		Get all countries with unique users per locality
 //		Job locSum = new Job(conf, "Countries&Localities");
@@ -81,18 +83,30 @@ public class JobChainDriver {
 //		TextOutputFormat.setOutputPath(sortLoc, new Path(tmpFolders[3]));
 //		sortLoc.waitForCompletion(true);
 		
-		Job topNei = new Job(conf, "get top neighbourhood per locality");
-		topNei.setJarByClass(TopNeighbourhoodMapper.class);
-		topNei.setMapperClass(TopNeighbourhoodMapper.class);
-		topNei.setNumReduceTasks(1);
-		topNei.setReducerClass(TopNeighbourhoodReducer.class);
-		topNei.setMapOutputKeyClass(Text.class);
-		topNei.setMapOutputValueClass(Text.class);
-		topNei.setOutputKeyClass(Text.class);
-		topNei.setOutputValueClass(Text.class);
-		TextInputFormat.addInputPath(topNei, new Path(localsAllNeighbs));
-		TextOutputFormat.setOutputPath(topNei, new Path(tmpFolders[4]));
-		topNei.waitForCompletion(true);
+//		Job topNei = new Job(conf, "get top neighbourhood per locality");
+//		topNei.setJarByClass(TopNeighbourhoodMapper.class);
+//		topNei.setMapperClass(TopNeighbourhoodMapper.class);
+//		topNei.setNumReduceTasks(1);
+//		topNei.setReducerClass(TopNeighbourhoodReducer.class);
+//		topNei.setMapOutputKeyClass(Text.class);
+//		topNei.setMapOutputValueClass(Text.class);
+//		topNei.setOutputKeyClass(Text.class);
+//		topNei.setOutputValueClass(Text.class);
+//		TextInputFormat.addInputPath(topNei, new Path(localsAllNeighbs));
+//		TextOutputFormat.setOutputPath(topNei, new Path(tmpFolders[4]));
+//		topNei.waitForCompletion(true);
+		
+		Job finalJoin = new Job(conf, "join top 10 localities with their top neighbours");
+		DistributedCache.addCacheFile(new Path(topNeighbs).toUri(), finalJoin.getConfiguration());
+		finalJoin.setJarByClass(FinalJoinMapper.class);
+		finalJoin.setMapperClass(FinalJoinMapper.class);
+		finalJoin.setNumReduceTasks(1);
+		finalJoin.setReducerClass(FinalJoinReducer.class);
+		finalJoin.setOutputKeyClass(Text.class);
+		finalJoin.setOutputValueClass(Text.class);
+		TextInputFormat.addInputPath(finalJoin, new Path(topLocalities));
+		TextOutputFormat.setOutputPath(finalJoin, new Path(tmpFolders[5]));
+		finalJoin.waitForCompletion(true);
 		
 		// remove the temporary path
 //		FileSystem.get(conf).delete(new Path(tmpFolder), true);
