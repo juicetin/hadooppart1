@@ -24,7 +24,7 @@ public class CountryLocalityReducer extends
 		if (keyParts.length > 1) {
 
 			// Country/Locality
-			String newKey = keyParts[0] + "/" + keyParts[1] + ".";
+			String newKey = keyParts[0] + "/" + keyParts[1];
 			int current = 0;
 			if (places.get(newKey) != null) {
 				current = places.get(newKey);

@@ -72,7 +72,7 @@ public class NeighbourhoodLocalityMapper extends
 			String user = dataArray[1];
 //			locNeighbs.put(locality + "/" + neighbourhood, 1);
 			context.write(new Text(locality + "/" + neighbourhood + 
-					"/" + user + "."), new IntWritable(1));
+					"/" + user), new IntWritable(1));
 //			if (countryLocs.get(country) != null && countryLocs.get(country).containsKey(locality)) {
 //				//Want to keep track of this neighbourhood in a
 //				

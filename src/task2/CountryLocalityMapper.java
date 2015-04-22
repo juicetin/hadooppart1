@@ -68,9 +68,4 @@ public class CountryLocalityMapper extends
 			context.write(new Text(keyOut), new IntWritable(1));
 		}
 	}
-	
-	@Override
-	public void cleanup(Context context) throws InterruptedException {
-		
-	}
 }

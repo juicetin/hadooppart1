@@ -18,7 +18,7 @@ public class NeighbourhoodLocalityReducer extends Reducer<Text, IntWritable, Tex
 		String[] keyParts = key.toString().split("/");
 		if (keyParts.length > 1) {
 			
-			String newKey = keyParts[0] + "/" + keyParts[1] + ".";
+			String newKey = keyParts[0] + "/" + keyParts[1];
 			int current = 0;
 			if (places.get(newKey) != null) {
 				current = places.get(newKey);
