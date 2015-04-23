@@ -2,7 +2,6 @@ package task1;
 
 import java.io.IOException;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;

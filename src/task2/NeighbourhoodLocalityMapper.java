@@ -4,23 +4,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Ordering;
-import com.google.common.collect.TreeMultimap;
 
 public class NeighbourhoodLocalityMapper extends
 		Mapper<LongWritable, Text, Text, IntWritable> {

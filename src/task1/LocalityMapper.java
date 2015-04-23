@@ -6,7 +6,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 public class LocalityMapper extends Mapper<Object, Text, Text, Text> {
-	private Text placeName = new Text();
 
 	public void setup(Context context) {
 	}
